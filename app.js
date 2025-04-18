@@ -1,5 +1,6 @@
 let form = document.getElementById('formElem');
 let error = document.getElementById('error');
+let success = document.getElementById('success');
 let emailFormat = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/;
 let passFormat = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 
@@ -49,25 +50,56 @@ function genderValid(val){
     }
 }
 
+// a function to validate user name input
+function userNameValid(val) {
+    if (val === "" || 
+        val === null || 
+        val === "null" || 
+        val === "undefined") {
+        error.innerText = "You must provide a unique user name.";   
+    }
+}
+
 // a function to update age as per input from the slider
 document.getElementById('age').addEventListener('input', function(e) {
     document.getElementById('inpAge').innerText = e.target.value;
 })
 
+// a function to validate age
+function ageValid(val) {
+    if (val === 0) {
+        error.innerText = "You must provide your age.";
+    }
+}
 
+// a function to check for agreement of terms and condition
+function termValid(val) {
+    if (!val) {
+        error.innerText = "You must agree to all our terms and condition."
+    }
+}
+
+// a function to show successful form submission
+function successNotice() {
+    if (error.innerText === "") {
+        success.innerText = "Form Submitted Successfully.";
+        form.reset();
+    }
+}
 
 // document.getElementById('submit').addEventListener('click', function(e) {
 // a better way to handle form submission
 form.addEventListener('submit', function(e) {
     error.innerText = '';
     e.preventDefault(); 
-let nameVal = document.getElementById('inpName').value
-let emailVal = document.getElementById('inpEmail').value
-let pass = document.getElementById('inpPass').value
-let rePass = document.getElementById('rePass').value
+let nameVal = document.getElementById('inpName').value;
+let emailVal = document.getElementById('inpEmail').value;
+let pass = document.getElementById('inpPass').value;
+let rePass = document.getElementById('rePass').value;
 let gender = document.querySelector('input[name="gender"]:checked');
-let userName = document.getElementById('userName').value
-let terms = document.getElementById('terms')
+let userName = document.getElementById('userName').value;
+let ageInp = document.getElementById('inpAge');
+let terms = document.getElementById('terms').checked;
 
 
 nameValid(nameVal);
@@ -75,4 +107,8 @@ emailValid(emailVal);
 passValid(pass);
 rePassValid(pass, rePass);
 genderValid(gender);
+userNameValid(userName);
+ageValid(Number(ageInp.innerText));
+termValid(terms);
+successNotice();
 })
